@@ -47,13 +47,14 @@ public class RunnerManager {
 				
 			}
 			
+
 		}	
 	}
 	
 	void manageObstacles() {
 
 		if(System.currentTimeMillis()-obstacleTimer>=obstacleSpawnTime) {
-			addObstacle(new Obstacle(new Random().nextInt((int)(0.3*RunnerGame.WIDTH))+(int)(0.28*RunnerGame.WIDTH), -20, 70, 90));
+			addObstacle(new Obstacle(new Random().nextInt((int)(0.3*RunnerGame.WIDTH))+(int)(0.28*RunnerGame.WIDTH), -100, 70, 90));
 			obstacleTimer = System.currentTimeMillis();
 			//addHole(new Hole(new Random().nextInt((int)(0.3*RunnerGame.WIDTH))+(int)(0.2*RunnerGame.WIDTH), 20, 100, 50));
 

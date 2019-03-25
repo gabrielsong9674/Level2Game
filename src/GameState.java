@@ -95,7 +95,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		
 		
 	}
-	//git keith is awesome
 	void drawGame(Graphics g) {
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);

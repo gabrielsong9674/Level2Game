@@ -7,6 +7,7 @@ public class Obstacle extends RunnerObject {
 	}
 	float speed = 0;
 	void update() {
+		super.update();
 		speed += .01;
 		y+= speed;
 		

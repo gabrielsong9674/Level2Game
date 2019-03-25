@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 public class RunnerObject {
 	 int x;
      float y;
+     
      int width;
      int height;
      boolean Alive;
@@ -17,7 +18,8 @@ public class RunnerObject {
 		collisionBox = new Rectangle(x, y, width, height);
 	}
 	void update() {
-        collisionBox.setBounds(x, (int)y, width, height);
+		int tempY = (int)y;
+        collisionBox.setBounds(x, tempY, width, height);
 	}
 	void draw(Graphics g) {
 		
