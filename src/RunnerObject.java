@@ -2,24 +2,25 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class RunnerObject {
-	 int x;
+	 float x;
      float y;
      
-     int width;
+     double width;
      int height;
      boolean Alive;
      Rectangle collisionBox;
-	RunnerObject(int x, int y, int width, int height){
+	RunnerObject(int x, int y, double width, int height){
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		Alive = true;
-		collisionBox = new Rectangle(x, y, width, height);
+		collisionBox = new Rectangle(x, y, (int)width, height);
 	}
 	void update() {
 		int tempY = (int)y;
-        collisionBox.setBounds(x, tempY, width, height);
+        collisionBox.setBounds((int)x, (int)y, (int)width, height);
+        
 	}
 	void draw(Graphics g) {
 		

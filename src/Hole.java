@@ -14,6 +14,6 @@ public class Hole extends RunnerObject {
 	}
 	void draw(Graphics g) {
 		g.setColor(Color.lightGray);
-		g.fillOval(x, (int)y, width, height);
+		g.fillOval((int)x, (int)y, (int)width, height);
 	}
 }
