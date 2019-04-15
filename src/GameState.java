@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.sound.sampled.Line;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -79,22 +80,45 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	}
 	//120 280
 	int frameCount = 0;
+	int gap = 5;
 	ArrayList<Lines> lines = new ArrayList<Lines>();
 	void drawLines(Graphics g){
 		frameCount ++;
+		int lineCount = 0;
 		if(lines.size() < 7 && frameCount % 50 == 0) {
+			g.setColor(Color.CYAN);
 			lines.add(new Lines());
+			lineCount++;
+			gap++;
 		}
 		for(int i = lines.size() -1; i >= 0; i--) {
 			lines.get(i).update();
 			lines.get(i).draw(g);
-			if(lines.get(i).lineY>= RunnerGame.HEIGHT) {
+			if(gap > 1 && lines.size() > gap) {
+				g.setColor(Color.lightGray);
+				g.fillPolygon(new int[] {
+						(int)lines.get(gap).lineX2, 
+						(int)lines.get(gap).lineX1, 
+						(int)lines.get(gap-1).lineX1, 
+						(int)lines.get(gap-1).lineX2}, new int[] {
+						(int)lines.get(gap).lineY,
+						(int)lines.get(gap).lineY,
+						(int)lines.get(gap-1).lineY,
+						(int)lines.get(gap-1).lineY,
+						}, 4);
+				if(lines.get(gap-1).lineY > RunnerGame.HEIGHT) {
+					gap=5;
+				}
+			}
+			g.setColor(Color.black);
+			if(lines.get(i).lineY> RunnerGame.HEIGHT) {
 				lines.remove(i);
 			}
+			
+			
 		}
-		
-		
 	}
+	
 	void drawGame(Graphics g) {
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
