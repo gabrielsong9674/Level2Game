@@ -9,9 +9,7 @@ public class RunnerManager {
 	ArrayList<Hole> hole = new ArrayList<Hole>();
 
 	long obstacleTimer = 0;
-	int obstacleSpawnTime =3000;
-	long holeTimer = 0;
-	int holeSpawnTime = 5000;
+	int obstacleSpawnTime = 4000;
 	RunnerManager(RunnerSquare square){
 		this.square = square;
 	}
@@ -21,7 +19,8 @@ public class RunnerManager {
 			obstacle.update();
 		}
 		for(Hole hole : hole) {
-			hole.update();
+			hole.update(square);
+			
 		}
 	}
 	void draw(Graphics g) {
@@ -42,7 +41,7 @@ public class RunnerManager {
 	}
 	void checkCollision() {
 		for (Obstacle obstacle : obstacle) {
-			if(square.collisionBox.intersects(obstacle.collisionBox)) {
+			if(square.collisionBox.intersects(obstacle.collisionBox)&& square.y == 390) {
 				square.Alive = false;
 				
 			}
@@ -56,7 +55,6 @@ public class RunnerManager {
 		if(System.currentTimeMillis()-obstacleTimer>=obstacleSpawnTime) {
 			addObstacle(new Obstacle(new Random().nextInt((int)(0.25*RunnerGame.WIDTH))+(int)(0.33*RunnerGame.WIDTH), -200, 30, 50));
 			obstacleTimer = System.currentTimeMillis();
-			//addHole(new Hole(new Random().nextInt((int)(0.3*RunnerGame.WIDTH))+(int)(0.2*RunnerGame.WIDTH), 20, 100, 50));
 
 		}
 

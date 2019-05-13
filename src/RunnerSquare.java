@@ -2,9 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class RunnerSquare extends RunnerObject {
-	double gravity = 0.5;
+	double gravity = 0.3;
 	double velocity = 0;
-	int power = 20;
+	int power = 15;
 	int limit = 390;
 	int xvelocity = 0;
 	int rightLimit = 325;
@@ -27,7 +27,7 @@ public class RunnerSquare extends RunnerObject {
 			y = limit;
 		}
 		x+= xvelocity;
-		if(canJump == true) {
+		if(canJump) {
 			super.update();
 		}
 		
@@ -38,10 +38,15 @@ public class RunnerSquare extends RunnerObject {
 	}
 	void jump() {
 		if(canJump) {
-		velocity -= power;
-		canJump = false;
-		collisionBox.setBounds(-100, -100, (int)width, height);
-		}	
+			velocity -= power;	
+		}		
+	}
+	void fall(double hole) {
+		if(y+40 < hole-30 && y+60 > hole-60) {
+			width-=5;
+			height-=5;
+			x+=2.5;
+		}
 	}
 	
 	
