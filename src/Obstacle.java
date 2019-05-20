@@ -9,7 +9,8 @@ public class Obstacle extends RunnerObject {
 		line1.lineX2 = x+width;
 		line2.lineX1 = x-6;
 		line2.lineX2 = x+6+width;
-		line2.lineY+=25;
+		line1.lineY = -25;
+		line2.lineY = 0;
 		distanceFromCenter = 200-(x+(.5*width));
 		
 	}
@@ -22,7 +23,6 @@ public class Obstacle extends RunnerObject {
 	void update() {
 		super.update();
 		speed += .01;
-		y+=speed;
 		line1.lineX1-=(6.0/25.0)*speed/4;
 		line1.lineX2+=(6.0/25.0)*speed/4;
 		line2.lineX1-=(6.0/25.0)*speed/4;

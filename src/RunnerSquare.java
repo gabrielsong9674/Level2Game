@@ -26,6 +26,9 @@ public class RunnerSquare extends RunnerObject {
 			velocity = 0;
 			y = limit;
 		}
+		if(y< limit) {
+			canJump = false;
+		}
 		x+= xvelocity;
 		if(canJump) {
 			super.update();

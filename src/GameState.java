@@ -35,6 +35,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	RunnerSquare square;
 	Obstacle obstacle;
 	Hole hole;
+	Coin coin;
 
 	GameState() {
 		titleFont = new Font("Arial", Font.BOLD, 48);
@@ -124,7 +125,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 			holes.get(i).draw(g);
 		}
 	}
-
 	void drawGame(Graphics g) {
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
