@@ -30,13 +30,11 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	int squareY = 390;
 	int squareWidth = 70;
 	int squareHeight = 70;
-
 	RunnerManager manager;
 	RunnerSquare square;
 	Obstacle obstacle;
 	Hole hole;
 	Coin coin;
-
 	GameState() {
 		titleFont = new Font("Arial", Font.BOLD, 48);
 		pressEnterFont = new Font("Arial", Font.BOLD, 24);
@@ -46,15 +44,12 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
 	}
-
 	void startGame() {
 		timer.start();
 	}
-
 	void updateStart() {
 
 	}
-
 	void updateGame() {
 		manager.update();
 		manager.manageObstacles();
@@ -107,7 +102,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 			if (lines.get(i).lineY > RunnerGame.HEIGHT) {
 				lines.remove(i);
 			}
-
 		}
 		if (lineCount % 12 == 0) {
 			holes.add(new Hole());
@@ -117,9 +111,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	}
 
 	ArrayList<Hole> holes = new ArrayList<Hole>();
-
 	void drawHole(Graphics g) {
-
 		for (int i = holes.size() - 1; i >= 0; i--) {
 			holes.get(i).update(square);
 			holes.get(i).draw(g);
@@ -138,8 +130,9 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.black);
 		g.drawString("Score:" + score, 11, 11);
 		drawLines(g);
-		drawHole(g);
 		manager.draw(g);
+		drawHole(g);
+
 	}
 
 	void drawEnd(Graphics g) {

@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Obstacle extends RunnerObject {
+public class Obstacle extends RunnerObject{
 	
 	Obstacle(int x, int y, double width, int height){
 		super(x,y,  width, height);
@@ -9,8 +9,8 @@ public class Obstacle extends RunnerObject {
 		line1.lineX2 = x+width;
 		line2.lineX1 = x-6;
 		line2.lineX2 = x+6+width;
-		line1.lineY = -25;
-		line2.lineY = 0;
+		line1.lineY = -150;
+		line2.lineY = -125;
 		distanceFromCenter = 200-(x+(.5*width));
 		
 	}
@@ -22,6 +22,9 @@ public class Obstacle extends RunnerObject {
 	double size = 0;
 	void update() {
 		super.update();
+		if(line1.lineY < 0) {
+			speed = 1;
+		}
 		speed += .01;
 		line1.lineX1-=(6.0/25.0)*speed/4;
 		line1.lineX2+=(6.0/25.0)*speed/4;
@@ -38,10 +41,12 @@ public class Obstacle extends RunnerObject {
 		super.collisionBox.setBounds((int)line1.lineX1, (int)line1.lineY, (int)width, height);
 	}
 	void draw(Graphics g) {
-		g.setColor(Color.black);
-		g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line1.lineX2, (int)line1.lineY);
-		g.drawLine((int)line2.lineX1, (int)line2.lineY, (int)line2.lineX2, (int)line2.lineY);
-		g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line2.lineX1, (int)line2.lineY);
-		g.drawLine((int)line2.lineX2-6, (int)line1.lineY, (int)line1.lineX2+6, (int)line2.lineY);
+			g.setColor(Color.black);
+			g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line1.lineX2, (int)line1.lineY);
+			g.drawLine((int)line2.lineX1, (int)line2.lineY, (int)line2.lineX2, (int)line2.lineY);
+			g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line2.lineX1, (int)line2.lineY);
+			g.drawLine((int)line2.lineX2-6, (int)line1.lineY, (int)line1.lineX2+6, (int)line2.lineY);	
+		
+		
 	}
 }
