@@ -9,8 +9,8 @@ public class Obstacle extends RunnerObject{
 		line1.lineX2 = x+width;
 		line2.lineX1 = x-6;
 		line2.lineX2 = x+6+width;
-		line1.lineY = -150;
-		line2.lineY = -125;
+		line1.lineY = -25;
+		line2.lineY = 0;
 		distanceFromCenter = 200-(x+(.5*width));
 		
 	}
@@ -22,9 +22,6 @@ public class Obstacle extends RunnerObject{
 	double size = 0;
 	void update() {
 		super.update();
-		if(line1.lineY < 0) {
-			speed = 1;
-		}
 		speed += .01;
 		line1.lineX1-=(6.0/25.0)*speed/4;
 		line1.lineX2+=(6.0/25.0)*speed/4;
@@ -38,7 +35,7 @@ public class Obstacle extends RunnerObject{
 		line2.lineX1-=distanceFromCenter*.003;
 		line1.lineX2-=distanceFromCenter*.003;
 		line2.lineX2-=distanceFromCenter*.003;
-		super.collisionBox.setBounds((int)line1.lineX1, (int)line1.lineY, (int)width, height);
+		super.collisionBox.setBounds((int)line1.lineX1, (int)line1.lineY, (int)width, (int)height);
 	}
 	void draw(Graphics g) {
 			g.setColor(Color.black);

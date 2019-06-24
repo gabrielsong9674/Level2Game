@@ -37,7 +37,7 @@ public class RunnerSquare extends RunnerObject {
 	}
 	void draw(Graphics g) {
 		g.setColor(Color.black);
-		g.fillRect((int)x, (int)y, (int)width, height);
+		g.fillRect((int)x, (int)y, (int)width, (int)height);
 	}
 	void jump() {
 		if(canJump) {

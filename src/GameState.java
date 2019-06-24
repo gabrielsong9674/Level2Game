@@ -17,7 +17,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	final int GAME = 1;
 	final int END = 2;
 	int currentState = START;
-	int score = 0;
+	static int score = 0;
 	Timer timer;
 	Font titleFont;
 	Font pressEnterFont;
@@ -30,6 +30,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	int squareY = 390;
 	int squareWidth = 70;
 	int squareHeight = 70;
+	
 	RunnerManager manager;
 	RunnerSquare square;
 	Obstacle obstacle;
@@ -48,7 +49,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		timer.start();
 	}
 	void updateStart() {
-
+		
 	}
 	void updateGame() {
 		manager.update();
@@ -57,6 +58,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		if (square.Alive == false) {
 			currentState = END;
 		}
+		
+		HoleTimer();
 	}
 
 	void updateEnd() {
@@ -85,7 +88,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	// 120 280
 	int frameCount = 0;
 	int gap = 5;
-	int lineCount = 0;
+	static int lineCount = 0;
 	int holeCount = 0;
 	ArrayList<Lines> lines = new ArrayList<Lines>();
 
@@ -100,14 +103,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 			lines.get(i).update();
 			lines.get(i).draw(g);
 			if (lines.get(i).lineY > RunnerGame.HEIGHT) {
-				lines.remove(i);
+				lines.remove(i);	
 			}
 		}
 		if (lineCount % 12 == 0) {
 			holes.add(new Hole());
 			holeCount++;
+			canSpawnObstacle = false;
+			lastGapSpawnTime = System.currentTimeMillis();
 		}
-
 	}
 
 	ArrayList<Hole> holes = new ArrayList<Hole>();
@@ -117,6 +121,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 			holes.get(i).draw(g);
 		}
 	}
+	static boolean canSpawnObstacle;
+	long lastGapSpawnTime;
+	long obstacleSpawnCoolDown = 2000;
+	void HoleTimer() {
+		if(System.currentTimeMillis() - lastGapSpawnTime >= obstacleSpawnCoolDown) {
+			canSpawnObstacle = true;
+		}
+	}
+
 	void drawGame(Graphics g) {
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
@@ -130,9 +143,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.black);
 		g.drawString("Score:" + score, 11, 11);
 		drawLines(g);
-		manager.draw(g);
 		drawHole(g);
-
+		manager.draw(g);
 	}
 
 	void drawEnd(Graphics g) {
@@ -142,6 +154,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.setFont(endFont);
 		g.drawString("You Lost", 125, 200);
 		g.setFont(pressEnterFont);
+
+		g.drawString("Score: "+score, 155, 235);
 		g.drawString("Press ENTER to restart", 70, 270);
 		g.drawLine(50, 100, 350, 100);
 		g.drawLine(50, 350, 350, 350);
@@ -152,6 +166,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		repaint();
 		if (currentState == START) {
+			score = 0;
+
 			updateStart();
 		} else if (currentState == GAME) {
 			updateGame();

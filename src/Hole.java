@@ -19,7 +19,7 @@ public class Hole{
 		oneX2+=(6.0/25.0)*speedsOne;
 		twoX2+=(6.0/25.0)*speedsTwo;
 		if(square.y == 390) {
-		square.fall(twoY);
+			square.fall(twoY);
 		}
 		if(square.height==0) {
 			square.Alive=false;

@@ -6,7 +6,7 @@ public class RunnerObject {
      float y;
      
      double width;
-     int height;
+     double height;
      boolean Alive;
      Rectangle collisionBox;
 	RunnerObject(int x, int y, double width, int height){
@@ -19,7 +19,7 @@ public class RunnerObject {
 	}
 	void update() {
 		int tempY = (int)y;
-        collisionBox.setBounds((int)x, (int)y, (int)width, height);
+        collisionBox.setBounds((int)x, (int)y, (int)width,(int) height);
         
 	}
 	void draw(Graphics g) {
