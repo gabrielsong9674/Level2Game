@@ -35,14 +35,23 @@ public class RunnerSquare extends RunnerObject {
 		}
 		
 	}
+	//int[] xpoints = {(int)x+10, (int)x+80, (int)x+80, (int)x+10};
+	//int[] ypoints = {(int)y+5, (int)y+5, (int)y+80, (int)y+80};
+	int difference;
 	void draw(Graphics g) {
+		difference = 390 - (int)y;
+		System.out.println(difference);
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect((int)x+difference/20, 430+difference/40, (int)width-(difference/10), (int)height/2 - difference/20);
 		g.setColor(Color.black);
 		g.fillRect((int)x, (int)y, (int)width, (int)height);
+
 	}
+	
 	void jump() {
 		if(canJump) {
-			velocity -= power;	
-		}		
+			velocity -= power;
+		}
 	}
 	void fall(double hole) {
 		if(y+40 < hole-30 && y+60 > hole-60) {

@@ -203,7 +203,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 				manager = new RunnerManager(square);
 				holes = new ArrayList<Hole>();
 				lines = new ArrayList<Lines>();
-
+				score = 0;
 			} else if (currentState == START) {
 				currentState = GAME;
 			}

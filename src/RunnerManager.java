@@ -58,7 +58,7 @@ public class RunnerManager {
 			}
 		}	
 		for(Coin coin : coin) {
-			if(square.collisionBox.intersects(coin.collisionBox)) {
+			if(square.collisionBox.intersects(coin.collisionBox) && square.y > 250) {
 				coin.Alive = false;
 				GameState.score ++;
 			}
