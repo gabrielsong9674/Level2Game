@@ -23,10 +23,7 @@ public class Coin extends RunnerObject {
 		super.collisionBox.setBounds((int)x, (int)y, (int)width, (int)height);
 	}
 	void draw(Graphics g) {
-		g.setColor(Color.darkGray);
-		g.fillOval((int)x, (int)y+60, (int)width, (int)height-20);
-		g.setColor(Color.YELLOW);
-		g.fillOval((int)x, (int)y, (int)width, (int)height);
+		g.drawImage(GameState.coinImg, (int)x, (int)y, (int)width, (int)height, null);
 	}
 	
 }

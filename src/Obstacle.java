@@ -37,13 +37,13 @@ public class Obstacle extends RunnerObject{
 		line2.lineX2-=distanceFromCenter*.003;
 		super.collisionBox.setBounds((int)line1.lineX1, (int)line1.lineY, (int)width, (int)height);
 	}
+	
 	void draw(Graphics g) {
-			g.setColor(Color.black);
-			g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line1.lineX2, (int)line1.lineY);
-			g.drawLine((int)line2.lineX1, (int)line2.lineY, (int)line2.lineX2, (int)line2.lineY);
-			g.drawLine((int)line1.lineX1, (int)line1.lineY, (int)line2.lineX1, (int)line2.lineY);
-			g.drawLine((int)line2.lineX2-6, (int)line1.lineY, (int)line1.lineX2+6, (int)line2.lineY);	
-		
+		int[] xpoints = {(int)line1.lineX1, (int)line2.lineX1, (int)line2.lineX2, (int)line1.lineX2};
+		int[] ypoints = {(int)line1.lineY, (int)line2.lineY, (int)line2.lineY, (int)line1.lineY};
+		g.setColor(Color.black);
+		g.fillPolygon(xpoints, ypoints, 4);
+			
 		
 	}
 }

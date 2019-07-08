@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -31,6 +34,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	int squareWidth = 70;
 	int squareHeight = 70;
 	
+	public static BufferedImage coinImg;
+	
 	RunnerManager manager;
 	RunnerSquare square;
 	Obstacle obstacle;
@@ -44,6 +49,12 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		timer = new Timer(1000 / 60, this);
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
+		try {
+			coinImg = ImageIO.read(this.getClass().getResourceAsStream("coin.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	void startGame() {
 		timer.start();
@@ -58,7 +69,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		if (square.Alive == false) {
 			currentState = END;
 		}
-		
 		HoleTimer();
 	}
 
@@ -95,7 +105,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	void drawLines(Graphics g) {
 		frameCount++;
 		if (lines.size() < 7 && frameCount % 50 == 0) {
-			g.setColor(Color.CYAN);
 			lines.add(new Lines());
 			lineCount++;
 		}

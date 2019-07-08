@@ -80,7 +80,7 @@ public class RunnerManager {
 			obstacleTimer = System.currentTimeMillis();
 			}
 		if(System.currentTimeMillis()-coinTimer>=coinSpawnTime && GameState.canSpawnObstacle) {
-			addCoin(new Coin(new Random().nextInt((int)(0.20*RunnerGame.WIDTH))+(int)(0.37*RunnerGame.WIDTH), -40, 20, 20));
+			addCoin(new Coin(new Random().nextInt((int)(0.20*RunnerGame.WIDTH))+(int)(0.37*RunnerGame.WIDTH), -40, 40, 40));
 			coinTimer = System.currentTimeMillis();
 		}
 	}

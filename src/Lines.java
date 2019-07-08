@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Lines {
@@ -13,6 +14,7 @@ public class Lines {
 		lineX2 += (6.0/25.0)*speeds;
 	}
 	void draw(Graphics g) {
+		g.setColor(Color.BLACK);
 		g.drawLine((int)lineX1, (int)lineY, (int)lineX2, (int)lineY);
 	}
 }
