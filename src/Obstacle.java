@@ -18,7 +18,7 @@ public class Obstacle extends RunnerObject{
 	
 	Lines line1 = new Lines();
 	Lines line2 = new Lines();
-	float speed = 0;
+	float speed = (float) RunnerManager.baseSpeed;
 	double size = 0;
 	void update() {
 		super.update();
@@ -41,7 +41,7 @@ public class Obstacle extends RunnerObject{
 	void draw(Graphics g) {
 		int[] xpoints = {(int)line1.lineX1, (int)line2.lineX1, (int)line2.lineX2, (int)line1.lineX2};
 		int[] ypoints = {(int)line1.lineY, (int)line2.lineY, (int)line2.lineY, (int)line1.lineY};
-		g.setColor(Color.black);
+		g.setColor(Color.cyan);
 		g.fillPolygon(xpoints, ypoints, 4);
 			
 		

@@ -8,8 +8,8 @@ public class Hole{
 	double twoX2 = 286;
 	double oneY = 0;
 	double twoY = 25;
-	double speedsOne = 0;
-	double speedsTwo = 0.1;
+	double speedsOne = RunnerManager.baseSpeed;
+	double speedsTwo = RunnerManager.baseSpeed+0.1;
 	void update(RunnerSquare square) {
 		speedsOne += .01;
 		oneY+=speedsOne;
@@ -27,8 +27,8 @@ public class Hole{
 	}
 	
 	void draw(Graphics g) {
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillPolygon(new int [] {(int)oneX1, (int)oneX2, (int)twoX2,(int)twoX1},
+		g.setColor(Color.lightGray);
+		g.fillPolygon(new int [] {(int)oneX1, (int)oneX2+2, (int)twoX2+2,(int)twoX1},
 				new int[] {(int)oneY, (int)oneY, (int)twoY,(int)twoY}, 4);
 	}
 }

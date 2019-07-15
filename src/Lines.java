@@ -5,7 +5,7 @@ public class Lines {
 	double lineX1 = 120;
 	double lineY = 0;
 	double lineX2 = 280;
-	double speeds = 0;
+	double speeds = RunnerManager.baseSpeed;
 
 	void update() {
 		speeds += .01;
@@ -14,7 +14,7 @@ public class Lines {
 		lineX2 += (6.0/25.0)*speeds;
 	}
 	void draw(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.black);
 		g.drawLine((int)lineX1, (int)lineY, (int)lineX2, (int)lineY);
 	}
 }

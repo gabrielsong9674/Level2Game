@@ -33,9 +33,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	int squareY = 390;
 	int squareWidth = 70;
 	int squareHeight = 70;
-	
+	static boolean canSpawnObstacle;
+	long lastGapSpawnTime;
+	long obstacleSpawnCoolDown = 2000;
 	public static BufferedImage coinImg;
-	
+	public static int frameCount = 0;
+	static int lineCount = 0;
+	int holeCount = 0;
+	ArrayList<Lines> lines = new ArrayList<Lines>();	
+
 	RunnerManager manager;
 	RunnerSquare square;
 	Obstacle obstacle;
@@ -50,11 +56,25 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
 		try {
-			coinImg = ImageIO.read(this.getClass().getResourceAsStream("coin.jpg"));
+			coinImg = ImageIO.read(this.getClass().getResourceAsStream("coin.png"));
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	void resetGame() {
+		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
+		manager = new RunnerManager(square);
+		holes = new ArrayList<Hole>();
+		lines = new ArrayList<Lines>();
+		score = 0;
+		canSpawnObstacle = false;
+		lastGapSpawnTime = System.currentTimeMillis();
+		frameCount = 0;
+		lineCount = 0;
+		holeCount = 0;
+		
 	}
 	void startGame() {
 		timer.start();
@@ -94,14 +114,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.black);
 		g.drawRect(0, 0, 400, 500);
 	}
-
-	// 120 280
-	int frameCount = 0;
-	int gap = 5;
-	static int lineCount = 0;
-	int holeCount = 0;
-	ArrayList<Lines> lines = new ArrayList<Lines>();
-
 	void drawLines(Graphics g) {
 		frameCount++;
 		if (lines.size() < 7 && frameCount % 50 == 0) {
@@ -125,14 +137,13 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 
 	ArrayList<Hole> holes = new ArrayList<Hole>();
 	void drawHole(Graphics g) {
+		g.setColor(Color.LIGHT_GRAY);
 		for (int i = holes.size() - 1; i >= 0; i--) {
 			holes.get(i).update(square);
 			holes.get(i).draw(g);
 		}
 	}
-	static boolean canSpawnObstacle;
-	long lastGapSpawnTime;
-	long obstacleSpawnCoolDown = 2000;
+	
 	void HoleTimer() {
 		if(System.currentTimeMillis() - lastGapSpawnTime >= obstacleSpawnCoolDown) {
 			canSpawnObstacle = true;
@@ -144,13 +155,11 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
 		g.setColor(Color.black);
 		g.drawPolygon(xpoints, ypoints, numberOfPoints);
-		g.setColor(Color.cyan);
+		g.setColor(Color.gray);
 		g.fillPolygon(xpoints, ypoints, numberOfPoints);
-		g.setColor(Color.cyan);
-		g.setFont(scoreFont);
-		g.drawString("Score:" + score, 10, 10);
 		g.setColor(Color.black);
-		g.drawString("Score:" + score, 11, 11);
+		g.setFont(scoreFont);
+		g.drawString("Score:" + score, 5, 11);
 		drawLines(g);
 		drawHole(g);
 		manager.draw(g);
@@ -208,11 +217,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
 				currentState = GAME;
-				square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
-				manager = new RunnerManager(square);
-				holes = new ArrayList<Hole>();
-				lines = new ArrayList<Lines>();
-				score = 0;
+				resetGame();
+				
 			} else if (currentState == START) {
 				currentState = GAME;
 			}

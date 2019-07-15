@@ -55,7 +55,7 @@ public class RunnerSquare extends RunnerObject {
 		if(y+40 < hole-30 && y+60 > hole-60) {
 			width-=5;
 			height-=5;
-			x+=2.5;
+			x+=3;
 		}
 	}
 	

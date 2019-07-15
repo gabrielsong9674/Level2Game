@@ -11,7 +11,7 @@ public class Coin extends RunnerObject {
 		distanceFromCenter = 200-(x+(.5*width));
 	}
 	double distanceFromCenter;
-	float speed = 0;
+	float speed = (float) RunnerManager.baseSpeed;
 	void update() {
 		super.update();
 		speed +=.01;

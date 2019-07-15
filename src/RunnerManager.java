@@ -13,10 +13,12 @@ public class RunnerManager {
 	int obstacleSpawnTime = 3000;
 	long coinTimer = 0;
 	int coinSpawnTime = 6000;
+	public static double baseSpeed = 0;
 	RunnerManager(RunnerSquare square){
 		this.square = square;
 	}
 	void update() {
+		increaseDifficulty();
 		square.update();
 		for (Obstacle obstacle : obstacle) {
 			obstacle.update();
@@ -58,20 +60,24 @@ public class RunnerManager {
 			}
 		}	
 		for(Coin coin : coin) {
-			if(square.collisionBox.intersects(coin.collisionBox) && square.y > 250) {
+			if(square.collisionBox.intersects(coin.collisionBox) && square.y > 270
+					) {
 				coin.Alive = false;
 				GameState.score ++;
 			}
 		}
 	}
+	void increaseDifficulty() {
+		if(GameState.frameCount % 100 == 0) {
+			baseSpeed += .02;
+		}
+	}
 	void removeObstacles() {
 		for (Iterator iterator = coin.iterator(); iterator.hasNext();) {
-			
 			Coin coin2 = (Coin) iterator.next();
 			if(coin2.Alive == false) {
 				iterator.remove();
 			}
-			
 		}
 	}
 	void manageObstacles() {
