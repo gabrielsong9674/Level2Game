@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,10 +14,12 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GameState extends JPanel implements ActionListener, KeyListener {
+public class GameState extends JPanel implements ActionListener, KeyListener, MouseListener {
 	final int START = 0;
 	final int GAME = 1;
 	final int END = 2;
@@ -26,6 +30,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	Font pressEnterFont;
 	Font scoreFont;
 	Font endFont;
+	Font difficultyFont;
 	int[] xpoints = { 0, 120, 280, 400 };
 	int[] ypoints = { 500, 0, 0, 500 };
 	int numberOfPoints = 4;
@@ -47,11 +52,20 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	Obstacle obstacle;
 	Hole hole;
 	Coin coin;
+	
+	int mouseX;
+	int mouseY;
+	
+	static boolean btn1Click = false;
+	static boolean btn2Click = false;
+	static boolean btn3Click = false;
+
 	GameState() {
-		titleFont = new Font("Arial", Font.BOLD, 48);
-		pressEnterFont = new Font("Arial", Font.BOLD, 24);
-		scoreFont = new Font("Arial", Font.BOLD, 12);
-		endFont = new Font("Arial", Font.BOLD, 36);
+		titleFont = new Font("Oswald", Font.PLAIN, 48);
+		pressEnterFont = new Font("Oswald", Font.PLAIN, 36);
+		scoreFont = new Font("Oswald", Font.PLAIN, 12);
+		endFont = new Font("Oswald", Font.PLAIN, 36);
+		difficultyFont = new Font("Oswald", Font.PLAIN, 18);
 		timer = new Timer(1000 / 60, this);
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
@@ -74,7 +88,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		frameCount = 0;
 		lineCount = 0;
 		holeCount = 0;
-		
+		RunnerManager.baseSpeed = 0;
 	}
 	void startGame() {
 		timer.start();
@@ -97,22 +111,57 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawStart(Graphics g) {
+		addMouseListener(this);
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.cyan);
-		g.drawString("RUN!", 130, 200);
+		g.drawString("RUN!", 130, 150);
 		g.setColor(Color.black);
-		g.drawString("RUN!", 132, 202);
+		g.drawString("RUN!", 132, 152);
+		
+		g.setColor(Color.cyan);
+		g.setFont(difficultyFont);
+		g.drawString("Choose your difficulty:", 96, 220);
+		g.setColor(Color.black);
+		g.drawString("Choose your difficulty:", 98, 222);
+		if(btn1Click && !btn2Click && !btn3Click) {
+			g.setColor(Color.DARK_GRAY);
+		}
+		else {
+			g.setColor(Color.BLACK);
+		}
+		g.fillRoundRect(85, 250, 60, 40, 5, 5);
+		if(btn2Click && !btn1Click && !btn3Click) {
+			g.setColor(Color.DARK_GRAY);
+		}
+		else {
+			g.setColor(Color.BLACK);
+		}
+		g.fillRoundRect(165, 250, 60, 40, 5, 5);
+		if(btn3Click && !btn1Click && !btn2Click) {
+			g.setColor(Color.DARK_GRAY);
+		}
+		else {
+			g.setColor(Color.BLACK);
+		}
+		g.fillRoundRect(245, 250, 60, 40, 5, 5);
+		g.setColor(Color.white);
+		g.drawString("1", 111, 276);
+		g.drawString("2", 191, 276);
+		g.drawString("3", 271, 276);
+
 		g.setColor(Color.cyan);
 		g.setFont(pressEnterFont);
-		g.drawString("Press ENTER to start", 70, 300);
+		g.drawString("Press ENTER to Start", 20, 395);
 		g.setColor(Color.black);
-		g.drawString("Press ENTER to start", 72, 302);
+		g.drawString("Press ENTER to Start", 22, 397);
+		
 		g.setColor(Color.cyan);
 		g.drawRect(2, 2, 396, 496);
 		g.setColor(Color.black);
 		g.drawRect(0, 0, 400, 500);
+	
 	}
 	void drawLines(Graphics g) {
 		frameCount++;
@@ -170,15 +219,12 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
 		g.setColor(Color.cyan);
 		g.setFont(endFont);
-		g.drawString("You Lost", 125, 200);
-		g.setFont(pressEnterFont);
-
-		g.drawString("Score: "+score, 155, 235);
-		g.drawString("Press ENTER to restart", 70, 270);
+		g.drawString("You Lost", 120, 200);
+		g.drawString("Score: "+score, 135, 240);
+		g.drawString("Press ENTER to restart", 7, 290);
 		g.drawLine(50, 100, 350, 100);
 		g.drawLine(50, 350, 350, 350);
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -216,7 +262,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
-				currentState = GAME;
+				currentState = START;
 				resetGame();
 				
 			} else if (currentState == START) {
@@ -245,4 +291,53 @@ public class GameState extends JPanel implements ActionListener, KeyListener {
 			square.xvelocity = 0;
 		}
 	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+			
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		mouseX = e.getX();
+		mouseY = e.getY();
+		if(mouseY <= 290 && mouseY >= 250) {
+			if(mouseX <= 145 && mouseX >= 85) {
+				btn1Click = true;
+				btn2Click = false;
+				btn3Click = false;
+
+			}
+			if(mouseX <= 225 && mouseX >= 165) {
+				btn2Click = true;
+				btn1Click = false;
+				btn3Click = false;
+
+			}
+			if(mouseX <= 305 && mouseX >= 245) {
+				btn3Click = true;
+				btn1Click = false;
+				btn2Click = false;
+
+			}
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

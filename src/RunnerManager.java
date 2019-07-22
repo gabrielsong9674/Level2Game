@@ -10,7 +10,7 @@ public class RunnerManager {
 	ArrayList<Hole> hole = new ArrayList<Hole>();
 	ArrayList<Coin> coin = new ArrayList<Coin>();
 	long obstacleTimer = 0;
-	int obstacleSpawnTime = 3000;
+	int obstacleSpawnTime = 2000;
 	long coinTimer = 0;
 	int coinSpawnTime = 6000;
 	public static double baseSpeed = 0;
@@ -60,8 +60,7 @@ public class RunnerManager {
 			}
 		}	
 		for(Coin coin : coin) {
-			if(square.collisionBox.intersects(coin.collisionBox) && square.y > 270
-					) {
+			if(square.collisionBox.intersects(coin.collisionBox)&& square.y>200) {
 				coin.Alive = false;
 				GameState.score ++;
 			}
@@ -69,7 +68,21 @@ public class RunnerManager {
 	}
 	void increaseDifficulty() {
 		if(GameState.frameCount % 100 == 0) {
-			baseSpeed += .02;
+			if(GameState.btn1Click) {
+				baseSpeed += .05;
+			}
+			if(GameState.btn2Click) {
+				baseSpeed += .1;
+			}
+			if(GameState.btn3Click) {
+				baseSpeed += .18;
+			}
+			else {
+				baseSpeed +=.01;
+			}
+		}
+		if(baseSpeed % 10 == 0) {
+			obstacleSpawnTime -= 50;
 		}
 	}
 	void removeObstacles() {
