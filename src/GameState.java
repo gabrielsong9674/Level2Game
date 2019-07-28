@@ -150,18 +150,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("1", 111, 276);
 		g.drawString("2", 191, 276);
 		g.drawString("3", 271, 276);
-
 		g.setColor(Color.cyan);
 		g.setFont(pressEnterFont);
-		g.drawString("Press ENTER to Start", 20, 395);
+		g.drawString("Press ENTER to Start", 20, 390);
 		g.setColor(Color.black);
-		g.drawString("Press ENTER to Start", 22, 397);
-		
+		g.drawString("Press ENTER to Start", 22, 392);
 		g.setColor(Color.cyan);
 		g.drawRect(2, 2, 396, 496);
 		g.setColor(Color.black);
 		g.drawRect(0, 0, 400, 500);
-	
 	}
 	void drawLines(Graphics g) {
 		frameCount++;
@@ -221,7 +218,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(endFont);
 		g.drawString("You Lost", 120, 200);
 		g.drawString("Score: "+score, 135, 240);
-		g.drawString("Press ENTER to restart", 7, 290);
+		g.drawString("Press ENTER to restart", 7, 310);
 		g.drawLine(50, 100, 350, 100);
 		g.drawLine(50, 350, 350, 350);
 	}
@@ -319,7 +316,6 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 				btn3Click = true;
 				btn1Click = false;
 				btn2Click = false;
-
 			}
 		}
 	}

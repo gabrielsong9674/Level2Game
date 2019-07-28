@@ -69,16 +69,16 @@ public class RunnerManager {
 	void increaseDifficulty() {
 		if(GameState.frameCount % 100 == 0) {
 			if(GameState.btn1Click) {
-				baseSpeed += .05;
-			}
-			if(GameState.btn2Click) {
 				baseSpeed += .1;
 			}
+			if(GameState.btn2Click) {
+				baseSpeed += .15;
+			}
 			if(GameState.btn3Click) {
-				baseSpeed += .18;
+				baseSpeed += .2;
 			}
 			else {
-				baseSpeed +=.01;
+				baseSpeed +=.05;
 			}
 		}
 		if(baseSpeed % 10 == 0) {

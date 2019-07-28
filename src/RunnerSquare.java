@@ -26,19 +26,21 @@ public class RunnerSquare extends RunnerObject {
 			velocity = 0;
 			y = limit;
 		}
-		if(y< limit) {
+		if(y < limit) {
 			canJump = false;
 		}
 		x+= xvelocity;
 		if(canJump) {
 			super.update();
 		}
+		if(x < -60 || x > 360) {
+			Alive = false;
+		}
 		
 	}
 	int difference;
 	void draw(Graphics g) {
 		difference = 390 - (int)y;
-
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect((int)x+difference/20, 430+difference/40, (int)width-(difference/10), (int)height/2 - difference/20);
 		g.setColor(Color.black);
