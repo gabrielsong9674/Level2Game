@@ -81,7 +81,7 @@ public class RunnerManager {
 				baseSpeed +=.05;
 			}
 		}
-		if(baseSpeed % 10 == 0) {
+		if(baseSpeed % 15 == 0) {
 			obstacleSpawnTime -= 50;
 		}
 	}

@@ -31,6 +31,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	Font scoreFont;
 	Font endFont;
 	Font difficultyFont;
+	Font instructionFont;
 	int[] xpoints = { 0, 120, 280, 400 };
 	int[] ypoints = { 500, 0, 0, 500 };
 	int numberOfPoints = 4;
@@ -59,13 +60,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	static boolean btn1Click = false;
 	static boolean btn2Click = false;
 	static boolean btn3Click = false;
-
+	static boolean instructionBtn = false;
 	GameState() {
 		titleFont = new Font("Oswald", Font.PLAIN, 48);
 		pressEnterFont = new Font("Oswald", Font.PLAIN, 36);
 		scoreFont = new Font("Oswald", Font.PLAIN, 12);
 		endFont = new Font("Oswald", Font.PLAIN, 36);
 		difficultyFont = new Font("Oswald", Font.PLAIN, 18);
+		instructionFont = new Font("Oswald", Font.PLAIN, 12);
+
 		timer = new Timer(1000 / 60, this);
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
@@ -152,9 +155,30 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("3", 271, 276);
 		g.setColor(Color.cyan);
 		g.setFont(pressEnterFont);
-		g.drawString("Press ENTER to Start", 20, 390);
+		g.drawString("Press ENTER to Start", 20, 370);
 		g.setColor(Color.black);
-		g.drawString("Press ENTER to Start", 22, 392);
+		g.drawString("Press ENTER to Start", 22, 372);
+		if(instructionBtn) {
+			g.setColor(Color.DARK_GRAY);
+		}
+		else {
+			g.setColor(Color.BLACK);
+		}
+		g.fillRoundRect(100, 430, 200, 50, 5, 5);
+		g.setColor(Color.white);
+		g.setFont(difficultyFont);
+		g.drawString("Click for Instructions", 110, 460);
+		if(instructionBtn) {
+			g.fillRoundRect(40, 10, 300, 400, 10, 10);
+			g.setColor(Color.BLACK);
+			g.setFont(instructionFont);
+			g.drawString("How to Play:", 60, 40);
+			g.drawString("Your player is the black square", 45, 70);
+			g.drawString("Avoid the blue trapezoids and collect the gold coins!", 45, 100);
+			g.drawString("Stay on the path", 45, 100);
+			g.drawString("Move the black square using the left & right arrow keys", 45, 140);
+			g.drawString("Jump using the up arrow key to avoid blue trapezoids", 45, 180);
+		}
 		g.setColor(Color.cyan);
 		g.drawRect(2, 2, 396, 496);
 		g.setColor(Color.black);
@@ -299,6 +323,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		mouseX = e.getX();
 		mouseY = e.getY();
+		
+		//difficulty buttons
 		if(mouseY <= 290 && mouseY >= 250) {
 			if(mouseX <= 145 && mouseX >= 85) {
 				btn1Click = true;
@@ -317,6 +343,11 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 				btn1Click = false;
 				btn2Click = false;
 			}
+		}
+		//instruction button
+		if(mouseX <= 300 && mouseX >= 100 && mouseY <= 480 && mouseY >= 430) {
+			instructionBtn = true;
+			
 		}
 	}
 	@Override
