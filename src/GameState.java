@@ -27,7 +27,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	static int score = 0;
 	Timer timer;
 	Font titleFont;
-	Font pressEnterFont;
+	Font howToFont;
 	Font scoreFont;
 	Font endFont;
 	Font difficultyFont;
@@ -46,28 +46,31 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	public static int frameCount = 0;
 	static int lineCount = 0;
 	int holeCount = 0;
-	ArrayList<Lines> lines = new ArrayList<Lines>();	
+	ArrayList<Lines> lines = new ArrayList<Lines>();
 
 	RunnerManager manager;
 	RunnerSquare square;
 	Obstacle obstacle;
 	Hole hole;
 	Coin coin;
-	
+
 	int mouseX;
 	int mouseY;
-	
+
 	static boolean btn1Click = false;
 	static boolean btn2Click = false;
 	static boolean btn3Click = false;
 	static boolean instructionBtn = false;
+	boolean xBtn = false;
+	boolean menuBtn = false;
+
 	GameState() {
 		titleFont = new Font("Oswald", Font.PLAIN, 48);
-		pressEnterFont = new Font("Oswald", Font.PLAIN, 36);
+		howToFont = new Font("Oswald", Font.PLAIN, 36);
 		scoreFont = new Font("Oswald", Font.PLAIN, 12);
 		endFont = new Font("Oswald", Font.PLAIN, 36);
 		difficultyFont = new Font("Oswald", Font.PLAIN, 18);
-		instructionFont = new Font("Oswald", Font.PLAIN, 12);
+		instructionFont = new Font("Oswald", Font.PLAIN, 14);
 
 		timer = new Timer(1000 / 60, this);
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
@@ -80,6 +83,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			e.printStackTrace();
 		}
 	}
+
 	void resetGame() {
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
@@ -92,13 +96,22 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		lineCount = 0;
 		holeCount = 0;
 		RunnerManager.baseSpeed = 0;
+		 btn1Click = false;
+		 btn2Click = false;
+		 btn3Click = false;
+		 instructionBtn = false;
+		 xBtn = false;
+		 menuBtn = false;
 	}
+
 	void startGame() {
 		timer.start();
 	}
+
 	void updateStart() {
-		
+
 	}
+
 	void updateGame() {
 		manager.update();
 		manager.manageObstacles();
@@ -122,30 +135,30 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("RUN!", 130, 150);
 		g.setColor(Color.black);
 		g.drawString("RUN!", 132, 152);
-		
+
 		g.setColor(Color.cyan);
 		g.setFont(difficultyFont);
 		g.drawString("Choose your difficulty:", 96, 220);
 		g.setColor(Color.black);
 		g.drawString("Choose your difficulty:", 98, 222);
-		if(btn1Click && !btn2Click && !btn3Click) {
+		if (btn1Click && !btn2Click && !btn3Click) {
 			g.setColor(Color.DARK_GRAY);
-		}
-		else {
+			currentState = GAME;
+		} else {
 			g.setColor(Color.BLACK);
 		}
 		g.fillRoundRect(85, 250, 60, 40, 5, 5);
-		if(btn2Click && !btn1Click && !btn3Click) {
+		if (btn2Click && !btn1Click && !btn3Click) {
 			g.setColor(Color.DARK_GRAY);
-		}
-		else {
+			currentState = GAME;
+		} else {
 			g.setColor(Color.BLACK);
 		}
 		g.fillRoundRect(165, 250, 60, 40, 5, 5);
-		if(btn3Click && !btn1Click && !btn2Click) {
+		if (btn3Click && !btn1Click && !btn2Click) {
 			g.setColor(Color.DARK_GRAY);
-		}
-		else {
+			currentState = GAME;
+		} else {
 			g.setColor(Color.BLACK);
 		}
 		g.fillRoundRect(245, 250, 60, 40, 5, 5);
@@ -153,37 +166,37 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("1", 111, 276);
 		g.drawString("2", 191, 276);
 		g.drawString("3", 271, 276);
-		g.setColor(Color.cyan);
-		g.setFont(pressEnterFont);
-		g.drawString("Press ENTER to Start", 20, 370);
-		g.setColor(Color.black);
-		g.drawString("Press ENTER to Start", 22, 372);
-		if(instructionBtn) {
-			g.setColor(Color.DARK_GRAY);
-		}
-		else {
-			g.setColor(Color.BLACK);
-		}
-		g.fillRoundRect(100, 430, 200, 50, 5, 5);
-		g.setColor(Color.white);
-		g.setFont(difficultyFont);
-		g.drawString("Click for Instructions", 110, 460);
-		if(instructionBtn) {
-			g.fillRoundRect(40, 10, 300, 400, 10, 10);
-			g.setColor(Color.BLACK);
-			g.setFont(instructionFont);
-			g.drawString("How to Play:", 60, 40);
-			g.drawString("Your player is the black square", 45, 70);
-			g.drawString("Avoid the blue trapezoids and collect the gold coins!", 45, 100);
-			g.drawString("Stay on the path", 45, 100);
-			g.drawString("Move the black square using the left & right arrow keys", 45, 140);
-			g.drawString("Jump using the up arrow key to avoid blue trapezoids", 45, 180);
-		}
+		drawInstructions(g);
 		g.setColor(Color.cyan);
 		g.drawRect(2, 2, 396, 496);
 		g.setColor(Color.black);
 		g.drawRect(0, 0, 400, 500);
 	}
+
+	void drawInstructions(Graphics g) {
+		g.setColor(Color.black);
+		g.fillRoundRect(88, 380, 215, 50, 5, 5);
+		g.setColor(Color.white);
+		g.setFont(difficultyFont);
+		g.drawString("Click for Instructions", 107, 410);
+		if (instructionBtn && !xBtn) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRoundRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT, 10, 10);
+			g.setColor(Color.BLACK);
+			g.setFont(howToFont);
+			g.drawString("How to Play:", 10, 40);
+			g.setFont(instructionFont);
+			g.drawString("Your player is the black square", 15, 70);
+			g.drawString("Avoid the blue trapezoids and collect the gold coins!", 15, 100);
+			g.drawString("Stay on the path", 15, 130);
+			g.drawString("Move the black square using the left & right arrow keys", 15, 160);
+			g.drawString("Jump using the up arrow key to avoid blue trapezoids", 15, 190);
+			g.drawLine(380, 20, 390, 10);
+			g.drawLine(380, 10, 390, 20);
+		}
+
+	}
+
 	void drawLines(Graphics g) {
 		frameCount++;
 		if (lines.size() < 7 && frameCount % 50 == 0) {
@@ -194,7 +207,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			lines.get(i).update();
 			lines.get(i).draw(g);
 			if (lines.get(i).lineY > RunnerGame.HEIGHT) {
-				lines.remove(i);	
+				lines.remove(i);
 			}
 		}
 		if (lineCount % 12 == 0) {
@@ -206,6 +219,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	ArrayList<Hole> holes = new ArrayList<Hole>();
+
 	void drawHole(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		for (int i = holes.size() - 1; i >= 0; i--) {
@@ -213,9 +227,9 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			holes.get(i).draw(g);
 		}
 	}
-	
+
 	void HoleTimer() {
-		if(System.currentTimeMillis() - lastGapSpawnTime >= obstacleSpawnCoolDown) {
+		if (System.currentTimeMillis() - lastGapSpawnTime >= obstacleSpawnCoolDown) {
 			canSpawnObstacle = true;
 		}
 	}
@@ -230,6 +244,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(Color.black);
 		g.setFont(scoreFont);
 		g.drawString("Score:" + score, 5, 11);
+		g.drawString("Restart Game", 317, 14);
 		drawLines(g);
 		drawHole(g);
 		manager.draw(g);
@@ -240,19 +255,21 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
 		g.setColor(Color.cyan);
 		g.setFont(endFont);
-		g.drawString("You Lost", 120, 200);
-		g.drawString("Score: "+score, 135, 240);
-		g.drawString("Press ENTER to restart", 7, 310);
+		g.drawString("You Lost", 120, 160);
+		g.drawString("Score: " + score, 130, 200);
+		g.drawString("Press ENTER", 90, 270);
+		g.drawString("to Restart", 115, 310);
+
 		g.drawLine(50, 100, 350, 100);
 		g.drawLine(50, 350, 350, 350);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		repaint();
 		if (currentState == START) {
 			score = 0;
-
 			updateStart();
 		} else if (currentState == GAME) {
 			updateGame();
@@ -281,14 +298,9 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if (currentState == END) {
-				currentState = START;
-				resetGame();
-				
-			} else if (currentState == START) {
-				currentState = GAME;
-			}
+		if (e.getKeyCode() == KeyEvent.VK_ENTER && currentState == END) {
+			currentState = START;
+			resetGame();
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -312,59 +324,72 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			square.xvelocity = 0;
 		}
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-			
+
 	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		mouseX = e.getX();
 		mouseY = e.getY();
-		
-		//difficulty buttons
-		if(mouseY <= 290 && mouseY >= 250) {
-			if(mouseX <= 145 && mouseX >= 85) {
+
+		// difficulty buttons
+		if (mouseY <= 290 && mouseY >= 250) {
+			if (mouseX <= 145 && mouseX >= 85) {
 				btn1Click = true;
 				btn2Click = false;
 				btn3Click = false;
 
 			}
-			if(mouseX <= 225 && mouseX >= 165) {
+			if (mouseX <= 225 && mouseX >= 165) {
 				btn2Click = true;
 				btn1Click = false;
 				btn3Click = false;
 
 			}
-			if(mouseX <= 305 && mouseX >= 245) {
+			if (mouseX <= 305 && mouseX >= 245) {
 				btn3Click = true;
 				btn1Click = false;
 				btn2Click = false;
 			}
 		}
-		//instruction button
-		if(mouseX <= 300 && mouseX >= 100 && mouseY <= 480 && mouseY >= 430) {
+		// instruction button
+		if (mouseX <= 303 && mouseX >= 88 && mouseY <= 430 && mouseY >= 380) {
 			instructionBtn = true;
-			
+			xBtn = false;
+		}
+		// x button from instruction page
+		if (mouseX <= 400 && mouseX >= 380 && mouseY <= 20 && mouseY >= 10) {
+			xBtn = true;
+			instructionBtn = false;
+		}
+		//menu button in game
+		if(mouseX <= 410 && mouseX >= 310 && mouseY <= 20 && mouseY >= 0) {
+			menuBtn = true;
+			resetGame();
 		}
 	}
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
 }
