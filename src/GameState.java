@@ -10,12 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Line;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,6 +20,7 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	final int END = 2;
 	int currentState = START;
 	static int score = 0;
+	int highScore = score;
 	Timer timer;
 	Font titleFont;
 	Font howToFont;
@@ -85,23 +81,25 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void resetGame() {
+
 		square = new RunnerSquare(squareX, squareY, squareWidth, squareHeight);
 		manager = new RunnerManager(square);
 		holes = new ArrayList<Hole>();
 		lines = new ArrayList<Lines>();
 		score = 0;
+
 		canSpawnObstacle = false;
 		lastGapSpawnTime = System.currentTimeMillis();
 		frameCount = 0;
 		lineCount = 0;
 		holeCount = 0;
 		RunnerManager.baseSpeed = 0;
-		 btn1Click = false;
-		 btn2Click = false;
-		 btn3Click = false;
-		 instructionBtn = false;
-		 xBtn = false;
-		 menuBtn = false;
+		btn1Click = false;
+		btn2Click = false;
+		btn3Click = false;
+		instructionBtn = false;
+		xBtn = false;
+		menuBtn = false;
 	}
 
 	void startGame() {
@@ -188,13 +186,16 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			g.setFont(instructionFont);
 			g.drawString("Your player is the black square", 15, 70);
 			g.drawString("Avoid the blue trapezoids and collect the gold coins!", 15, 100);
-			g.drawString("Stay on the path", 15, 130);
-			g.drawString("Move the black square using the left & right arrow keys", 15, 160);
-			g.drawString("Jump using the up arrow key to avoid blue trapezoids", 15, 190);
+			g.drawString("Each coin is worth one point", 15, 130);
+			g.drawString("Stay on the path or you'll die", 15, 160);
+			g.drawString("Move the black square using the left & right arrow keys", 15, 190);
+			g.drawString("Jump using the up arrow key to avoid blue trapezoids", 15, 220);
+			g.drawString("If you touch the blue trapezoids, you'll die", 15, 250);
+			g.drawString("Choose your difficulty, 1: easy, 2: medium, 3: hard", 15, 250);
+			// draw x button right corner
 			g.drawLine(380, 20, 390, 10);
 			g.drawLine(380, 10, 390, 20);
 		}
-
 	}
 
 	void drawLines(Graphics g) {
@@ -251,14 +252,19 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void drawEnd(Graphics g) {
+		if (score > highScore) {
+			highScore = score;
+		}
 		g.setColor(Color.black);
 		g.fillRect(0, 0, RunnerGame.WIDTH, RunnerGame.HEIGHT);
 		g.setColor(Color.cyan);
 		g.setFont(endFont);
 		g.drawString("You Lost", 120, 160);
 		g.drawString("Score: " + score, 130, 200);
-		g.drawString("Press ENTER", 90, 270);
-		g.drawString("to Restart", 115, 310);
+		g.drawString("Your record: " + highScore, 85, 240);
+
+		g.drawString("Press ENTER", 90, 290);
+		g.drawString("to Restart", 115, 330);
 
 		g.drawLine(50, 100, 350, 100);
 		g.drawLine(50, 350, 350, 350);
@@ -367,8 +373,8 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Mo
 			xBtn = true;
 			instructionBtn = false;
 		}
-		//menu button in game
-		if(mouseX <= 410 && mouseX >= 310 && mouseY <= 20 && mouseY >= 0) {
+		// menu button in game
+		if (mouseX <= 410 && mouseX >= 310 && mouseY <= 20 && mouseY >= 0) {
 			menuBtn = true;
 			resetGame();
 		}

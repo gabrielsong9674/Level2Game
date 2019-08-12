@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 public class Coin extends RunnerObject {
 	

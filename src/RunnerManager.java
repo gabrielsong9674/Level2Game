@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -69,21 +68,28 @@ public class RunnerManager {
 	void increaseDifficulty() {
 		if(GameState.frameCount % 100 == 0) {
 			if(GameState.btn1Click) {
-				baseSpeed += .1;
+				baseSpeed += .05;
+				if(baseSpeed % 15 == 0) {
+					obstacleSpawnTime -= 50;
+				}
 			}
 			if(GameState.btn2Click) {
-				baseSpeed += .15;
+				baseSpeed += .1;
+				if(baseSpeed % 15 == 0) {
+					obstacleSpawnTime -= 100;
+				}
 			}
 			if(GameState.btn3Click) {
-				baseSpeed += .2;
+				baseSpeed += .3;
+				if(baseSpeed*10 % 6 == 0) {
+					obstacleSpawnTime -= 200;
+				}
 			}
 			else {
 				baseSpeed +=.05;
 			}
 		}
-		if(baseSpeed % 15 == 0) {
-			obstacleSpawnTime -= 50;
-		}
+		
 	}
 	void removeObstacles() {
 		for (Iterator iterator = coin.iterator(); iterator.hasNext();) {

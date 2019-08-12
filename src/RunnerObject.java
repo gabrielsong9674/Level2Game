@@ -18,7 +18,6 @@ public class RunnerObject {
 		collisionBox = new Rectangle(x, y, (int)width, height);
 	}
 	void update() {
-		int tempY = (int)y;
         collisionBox.setBounds((int)x, (int)y, (int)width,(int) height);
         
 	}
